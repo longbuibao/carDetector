@@ -1,7 +1,8 @@
 # su dung
+##### tai file: `https://drive.google.com/file/d/1-7i_O9eK6hxn2rcV-4up3W0G5q8SJRAp/view`
 `git clone git@github.com:longbuibao/carDetector.git`
 
-`cd carDetector/darknet`
+`cd carDetector/darknet` copy `yolov3_training_10000.weights` vo thu muc darknet
 
 `node index.js`
 
