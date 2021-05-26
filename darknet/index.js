@@ -3,17 +3,19 @@ const fileUpload = require('express-fileupload');
 const app = express();
 const { spawn } = require('child_process');
 
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 9000
 
 // default options
 app.use(fileUpload());
+app.use(express.static(__dirname))
+
 app.set('view engine', 'ejs');
 app.set('views', '../views');
 
 
-app.get('/', (req, res) => {
-    res.render('upload.ejs')
-})
+app.get('/', (_, res) => {
+    res.render('UI.ejs', { urlRight: '', urlLeft: '' })
+});
 
 app.post('/upload', function(req, res) {
     let sampleFile;
@@ -34,7 +36,14 @@ app.post('/upload', function(req, res) {
         console.log('please wait.....')
         const commandObj = {
             command: './darknet',
-            agrs: ['detector', 'test', 'cfg/coco.data', 'cfg/yolov3_training.cfg', 'yolov3_training_10000.weights', `data/${sampleFile.name}`]
+            agrs: ['detector',
+                'test',
+                'cfg/coco.data',
+                'cfg/yolov3_training.cfg',
+                'yolov3_training_10000.weights',
+                `data/${sampleFile.name}`, `-thresh`,
+                req.body.thresh
+            ]
         }
         const ls = spawn(commandObj.command, commandObj.agrs)
 
@@ -48,9 +57,9 @@ app.post('/upload', function(req, res) {
 
         ls.on('close', (code) => {
             console.log(`child process exited with code ${code}`);
-            res.sendFile(__dirname + '/predictions.jpg', (err) => {
-                if (err)
-                    res.status(500).send("something wrong")
+            res.render('UI.ejs', {
+                urlLeft: './data/' + sampleFile.name,
+                urlRight: './predictions.jpg'
             })
         });
     });
@@ -58,4 +67,4 @@ app.post('/upload', function(req, res) {
 
 app.listen(PORT, () => {
     console.log(`listening on port ${PORT}`)
-})
+});

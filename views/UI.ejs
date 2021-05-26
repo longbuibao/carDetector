@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 70%;
+            margin: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        img {
+            width: 100%;
+        }
+        
+        .right-img,
+        .left-img {
+            width: 30%;
+        }
+        
+        .options {
+            width: 30%;
+        }
+        
+        form input {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="left-img">
+            <img src="<%= urlLeft %>" alt="" srcset="">
+        </div>
+        <div class="options">
+            <div class="upload-btn">
+                <form ref='uploadForm' id='uploadForm' action='http://localhost:9000/upload' method='post' encType="multipart/form-data">
+                    <input type="file" name="sampleFile" />
+                    <input type="text" name="thresh" />
+                    <input type='submit' value='Upload' style="display: block;" />
+                </form>
+            </div>
+        </div>
+        <div class="right-img">
+            <img src="<%= urlRight %>" alt="" srcset="">
+        </div>
+    </div>
+</body>
+
+</html>
